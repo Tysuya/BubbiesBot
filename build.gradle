@@ -8,6 +8,12 @@ version '1.0-SNAPSHOT'
 
 mainClassName='BubbiesBot'
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'BubbiesBot'
+    }
+}
+
 repositories {
     mavenCentral()
 }
