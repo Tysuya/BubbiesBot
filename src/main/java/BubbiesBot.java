@@ -61,7 +61,7 @@ public class BubbiesBot extends ListenerAdapter {
         System.out.println("Finished scheduling tasks!");
 
         BindToPort.keepAwake();
-        BindToPort.bindToPort();
+        //BindToPort.bindToPort();
     }
 
     static class Task implements Runnable {
@@ -81,7 +81,7 @@ public class BubbiesBot extends ListenerAdapter {
 
             textChannel = jda.getTextChannelsByName(channel, false).get(0);
 
-            LocalDateTime sendTime = LocalDateTime.parse(time.replace(" ", "T")).plusYears(2).minusDays(2).minusHours(13).plusMinutes(0);
+            LocalDateTime sendTime = LocalDateTime.parse(time).plusYears(2);
             delay = ChronoUnit.MICROS.between(LocalDateTime.now(), sendTime);
             timeUnit = TimeUnit.MICROSECONDS;
 
