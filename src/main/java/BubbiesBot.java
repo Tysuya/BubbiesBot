@@ -59,9 +59,6 @@ public class BubbiesBot extends ListenerAdapter {
         }
 
         System.out.println("Finished scheduling tasks!");
-
-        BindToPort.keepAwake();
-        //BindToPort.bindToPort();
     }
 
     static class Task implements Runnable {
