@@ -1,5 +1,6 @@
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.oauth.DbxCredential;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import net.dv8tion.jda.api.JDA;
@@ -37,8 +38,9 @@ public class BubbiesBot extends ListenerAdapter {
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
         // Create Dropbox client
-        DbxRequestConfig config = new DbxRequestConfig("Tysuya");
-        DbxClientV2 client = new DbxClientV2(config, System.getenv("dropbox"));
+        DbxRequestConfig config = new DbxRequestConfig("");
+        DbxCredential dbxCredential = new DbxCredential("", 0L, System.getenv("refreshToken"), System.getenv("appKey"), System.getenv("appSecret"));
+        DbxClientV2 client = new DbxClientV2(config, dbxCredential.refresh(config).getAccessToken());
         DbxDownloader<FileMetadata> downloader = client.files().download("/bubbies.txt");
 
         InputStream inputStream = downloader.getInputStream();
