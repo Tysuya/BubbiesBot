@@ -101,6 +101,7 @@ public class BubbiesBot extends ListenerAdapter {
         public void run() {
             if (sendMessage) {
                 textChannel.sendMessage(message).complete();
+                System.out.printf("[%s] %s: %s", LocalDateTime.now(), textChannel.getJDA().getSelfUser().getName(), message);
             }
         }
     }
