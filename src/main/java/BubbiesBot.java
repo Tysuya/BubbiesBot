@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
@@ -101,7 +102,7 @@ public class BubbiesBot extends ListenerAdapter {
         public void run() {
             if (sendMessage) {
                 textChannel.sendMessage(message).complete();
-                System.out.printf("[%s] %s: %s", LocalDateTime.now(), textChannel.getJDA().getSelfUser().getName(), message);
+                System.out.printf("[%s] %s: %s\n", LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMM d HH:mm:ss:SSS")), textChannel.getJDA().getSelfUser().getName(), message);
             }
         }
     }
