@@ -85,16 +85,23 @@ public class BubbiesBot extends ListenerAdapter {
             delay = ChronoUnit.MICROS.between(LocalDateTime.now(), sendTime);
             timeUnit = TimeUnit.MICROSECONDS;
 
-            if (delay > -3600000000L && delay < 0) {
+            // If Heroku goes down for < 5 minutes, the messages are still sent
+            if (delay >= 0) {
+                sendMessage = true;
+            } else if (delay > -timeUnit.convert(5, TimeUnit.MINUTES)) {
                 sendMessage = true;
 
+                // If message already exists in last 100 messages in channel, don't send it
                 List<Message> messageList = messageHistory.get(channel);
-                // If message doesn't exist in channel, send it
                 for (Message m : messageList) {
                     if (m.getContentRaw().equals(message)) {
-                        if (author.equals("TripleFury") && m.getAuthor().getName().equals("TythorBot") || author.equals("ashling") && m.getAuthor().getName().equals("AshlingBot")) {
-                            sendMessage = false;
-                            break;
+                        String messageAuthor = m.getAuthor().getName();
+                        if (author.equals("TripleFury") && messageAuthor.equals("TythorBot") || author.equals("ashling") && messageAuthor.equals("AshlingBot")) {
+                            LocalDateTime timeCreated = m.getTimeCreated().toLocalDateTime();
+                            if (timeCreated.isBefore(sendTime.plusMinutes(5))) {
+                                sendMessage = false;
+                                break;
+                            }
                         }
                     }
                 }
